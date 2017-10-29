@@ -14,6 +14,7 @@ import spark.Route;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 /**
  * Created for K and M Consulting LLC.
@@ -50,17 +51,19 @@ public class AddSecretRoute implements Route {
             );
         }
 
-        return this.secretService.addSecret(
+        UUID uuid = this.secretService.addSecret(
                 new Secret(
                         context.getMessage(),
                         Instant.now(),
                         Instant.now().plus(
-                                context.getExpiresMinutes() > 0 ? context.getExpiresMinutes() : this.secretDefaultExpiryMinutes,
+                                context.getExpiryMinutes() > 0 ? context.getExpiryMinutes() : this.secretDefaultExpiryMinutes,
                                 ChronoUnit.MINUTES
                         ),
                         encryptedPassword
                 )
-        ).toString();
+        );
+
+        return SimpleExitRoute.builder(res).OK_200().text(uuid.toString());
     }
 
     @Override

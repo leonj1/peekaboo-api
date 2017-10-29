@@ -10,10 +10,13 @@ import com.josemleon.controllers.routes.HealthCheckRoute;
 import com.josemleon.exceptions.PropertiesFileNotFoundException;
 import com.josemleon.models.Secret;
 import com.josemleon.services.BCryptEncryptPassword;
+import com.josemleon.services.BeforeFilter;
 import com.josemleon.services.EncryptPassword;
 import com.josemleon.services.RandomStringSaltGenerator;
 import com.josemleon.services.SaltGenerator;
 import com.josemleon.services.SecretService;
+import com.josemleon.services.SparkFilter;
+import com.josemleon.services.WebServerFilters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -54,6 +57,17 @@ public class App {
 
         // Our REST endpoint
         Spark.port(appProperties.getHttpServerPort());
+
+        // Initialize Web server filters
+        WebServerFilters webServerFilters = new WebServerFilters(
+                new SparkFilter[]{
+                        new BeforeFilter()
+                },
+                "*",
+                "PUT GET POST DELETE",
+                ""
+        );
+        webServerFilters.start();
 
         EncryptPassword passwordEncryption = new BCryptEncryptPassword();
         SaltGenerator randomStringSaltGenerator = new RandomStringSaltGenerator(appProperties.getSaltPasswordRounds());

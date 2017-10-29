@@ -99,18 +99,21 @@ public class SimpleExitRoute {
 
         @Override
         public String json(Object obj, Type typeOfSrc) {
+            this.response.header("Content-Type", "application/json");
             this.response.status(this.httpStatus);
             return this.gson.toJson(obj, typeOfSrc);
         }
 
         @Override
         public String text(String message) {
+            this.response.header("Content-Type", "text/html");
             this.response.status(this.httpStatus);
             return message;
         }
 
         @Override
         public String text(String message, Exception e) {
+            this.response.header("Content-Type", "text/html");
             this.response.status(this.httpStatus);
             log.error(message, e);
             return message;

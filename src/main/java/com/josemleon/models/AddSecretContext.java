@@ -1,6 +1,5 @@
 package com.josemleon.models;
 
-import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -10,13 +9,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class AddSecretContext {
     private String message;
     private String password;
-    @SerializedName("expires_minutes")
-    private int expiresMinutes;
+    private int expiryMinutes;
 
-    public AddSecretContext(String message, String password, int expiresMinutes) {
+    public AddSecretContext(String message, String password, int expiryMinutes) {
         this.message = message;
         this.password = password;
-        this.expiresMinutes = expiresMinutes;
+        this.expiryMinutes = expiryMinutes;
     }
 
     public String getMessage() {
@@ -27,8 +25,8 @@ public class AddSecretContext {
         return password;
     }
 
-    public int getExpiresMinutes() {
-        return expiresMinutes;
+    public int getExpiryMinutes() {
+        return expiryMinutes;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class AddSecretContext {
         return new ToStringBuilder(this)
                 .append("message", message)
                 .append("password", password)
-                .append("expiresMinutes", expiresMinutes)
+                .append("expiryMinutes", expiryMinutes)
                 .toString();
     }
 }
