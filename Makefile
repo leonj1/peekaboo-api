@@ -3,7 +3,7 @@ all: compile
 DOCKER_IMAGE_TAG := $(shell python get_docker_build_version.py)
 DOCKER_GIT_RELEASE_TAG := $(shell python get_latest_git_release_tag.py)
 DOCKER_REPO=www.dockerhub.us
-DOCKER_IMAGE=peekaboo
+DOCKER_IMAGE=peekabooapi
 
 clean:
 	mvn clean
