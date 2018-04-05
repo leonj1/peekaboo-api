@@ -73,8 +73,7 @@ public class App {
         SaltGenerator randomStringSaltGenerator = new RandomStringSaltGenerator(appProperties.getSaltPasswordRounds());
         SecretService secretService = new SecretService(
                 new ConcurrentHashMap<UUID, Secret>(),
-                passwordEncryption,
-                randomStringSaltGenerator
+                passwordEncryption
         );
 
         RestEndpoints restEndpoints = new RestEndpoints(
