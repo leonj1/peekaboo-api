@@ -29,6 +29,7 @@ public class GetSecretWithPasswordRoute implements Route {
                     uuid,
                     password
             );
+            return message;
         } catch (NotFoundException e) {
             return SimpleExitRoute.builder(res).NOT_FOUND_404().text(e.getMessage());
         } catch (SecretExpiredException e) {
@@ -36,7 +37,6 @@ public class GetSecretWithPasswordRoute implements Route {
         } catch (RequiresPasswordException e) {
             return SimpleExitRoute.builder(res).UNAUTHORIZED_401().text(e.getMessage());
         }
-        return message;
     }
 
     @Override
@@ -44,14 +44,13 @@ public class GetSecretWithPasswordRoute implements Route {
         UUID id;
         try {
             id = UUID.fromString(request.params("uuid"));
+            String password = "";
+            if (null != request.params("password")) {
+                password = request.params("password");
+            }
+            return execute(response, id, password);
         } catch (Exception e) {
             return SimpleExitRoute.builder(response).BAD_REQUEST_400().text("invalid UUID", e);
         }
-
-        String password = "";
-        if (null != request.params("password")) {
-            password = request.params("password");
-        }
-        return execute(response, id, password);
     }
 }

@@ -26,7 +26,7 @@ public class Secret {
 
     public String message(String encryptedPassword) throws RequiresPasswordException, SecretExpiredException {
         expect(encryptedPassword, "encryptedPassword").not().toBeNull().check();
-        if (!"".equals(this.encryptedPassword) && encryptedPassword.equals(this.encryptedPassword)) {
+        if (!encryptedPassword.equals(this.encryptedPassword)) {
             throw new RequiresPasswordException("invalid password");
         }
 
