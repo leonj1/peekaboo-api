@@ -23,13 +23,11 @@ public class GetSecretWithPasswordRoute implements Route {
     }
 
     public String execute(Response res, UUID uuid, String password) {
-        String message = null;
         try {
-            message = this.secretService.getSecret(
+            return this.secretService.getSecret(
                     uuid,
                     password
             );
-            return message;
         } catch (NotFoundException e) {
             return SimpleExitRoute.builder(res).NOT_FOUND_404().text(e.getMessage());
         } catch (SecretExpiredException e) {

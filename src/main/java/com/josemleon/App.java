@@ -1,5 +1,6 @@
 package com.josemleon;
 
+import com.google.gson.Gson;
 import com.josemleon.configs.AppProperties;
 import com.josemleon.controllers.Controller;
 import com.josemleon.controllers.RestEndpoints;
@@ -84,7 +85,8 @@ public class App {
                                         secretService,
                                         passwordEncryption,
                                         randomStringSaltGenerator,
-                                        appProperties.getSecretDefaultExpiryMinutes()
+                                        appProperties.getSecretDefaultExpiryMinutes(),
+                                        new Gson()
                                 ),
                                 new GetSecretWithPasswordRoute(secretService)
                         )

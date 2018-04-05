@@ -23,9 +23,8 @@ public class GetSecretRoute implements Route {
     }
 
     public String execute(Response res, UUID id) {
-        String message = null;
         try {
-            message = this.secretService.getSecret(
+            return this.secretService.getSecret(
                     id,
                     ""
             );
@@ -36,7 +35,6 @@ public class GetSecretRoute implements Route {
         } catch (RequiresPasswordException e) {
             return SimpleExitRoute.builder(res).UNAUTHORIZED_401().text(e.getMessage());
         }
-        return message;
     }
 
     @Override

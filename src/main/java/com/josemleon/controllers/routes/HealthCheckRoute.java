@@ -12,6 +12,9 @@ import spark.Route;
 public class HealthCheckRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        return SimpleExitRoute.builder(response).OK_200().text("OK");
+        return SimpleExitRoute
+                .builder(response)
+                .OK_200()
+                .text("OK");
     }
 }
