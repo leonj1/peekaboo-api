@@ -2,7 +2,10 @@ package com.josemleon.models;
 
 import com.josemleon.exceptions.RequiresPasswordException;
 import com.josemleon.exceptions.SecretExpiredException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 
 import static com.github.choonchernlim.betterPreconditions.preconditions.PreconditionFactory.expect;
@@ -12,6 +15,7 @@ import static com.github.choonchernlim.betterPreconditions.preconditions.Precond
  * Created by Jose M Leon 2017
  **/
 public class Secret {
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private String message;
     private Instant createTime;
     private Instant expires;
@@ -27,6 +31,13 @@ public class Secret {
     public String message(String encryptedPassword) throws RequiresPasswordException, SecretExpiredException {
         expect(encryptedPassword, "encryptedPassword").not().toBeNull().check();
         if (!encryptedPassword.equals(this.encryptedPassword)) {
+            log.debug(
+                    String.format(
+                            "This secret password %s does not match %s",
+                            this.encryptedPassword,
+                            encryptedPassword
+                    )
+            );
             throw new RequiresPasswordException("invalid password");
         }
 
