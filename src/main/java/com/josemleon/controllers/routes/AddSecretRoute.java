@@ -44,9 +44,10 @@ public class AddSecretRoute implements Route {
         }
 
         String encryptedPassword = "";
+        String salt = this.randomStringSaltGenerator.salt();
         if (!"".equals(context.getPassword())) {
             encryptedPassword = this.passwordEncryption.encrypt(
-                    this.randomStringSaltGenerator.salt(),
+                    salt,
                     context.getPassword()
             );
         }
@@ -59,7 +60,8 @@ public class AddSecretRoute implements Route {
                                 context.getExpiryMinutes() > 0 ? context.getExpiryMinutes() : this.secretDefaultExpiryMinutes,
                                 ChronoUnit.MINUTES
                         ),
-                        encryptedPassword
+                        encryptedPassword,
+                        salt
                 )
         );
 

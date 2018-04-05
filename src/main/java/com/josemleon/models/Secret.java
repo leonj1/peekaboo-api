@@ -20,12 +20,14 @@ public class Secret {
     private Instant createTime;
     private Instant expires;
     private String encryptedPassword;
+    private String salt;
 
-    public Secret(String message, Instant createTime, Instant expires, String encryptedPassword) {
+    public Secret(String message, Instant createTime, Instant expires, String encryptedPassword, String salt) {
         this.message = message;
         this.createTime = createTime;
         this.expires = expires;
         this.encryptedPassword = encryptedPassword;
+        this.salt = salt;
     }
 
     public String message(String encryptedPassword) throws RequiresPasswordException, SecretExpiredException {
@@ -46,6 +48,10 @@ public class Secret {
         }
 
         return this.message;
+    }
+
+    public String salt() {
+        return this.salt;
     }
 
     public boolean isExpired() {

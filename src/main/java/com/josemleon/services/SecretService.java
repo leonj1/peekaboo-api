@@ -17,12 +17,10 @@ import static com.github.choonchernlim.betterPreconditions.preconditions.Precond
 public class SecretService {
     private Map<UUID, Secret> secrets;
     private EncryptPassword passwordEncryption;
-    private SaltGenerator saltGenerator;
 
-    public SecretService(Map<UUID, Secret> secrets, EncryptPassword passwordEncryption, SaltGenerator saltGenerator) {
+    public SecretService(Map<UUID, Secret> secrets, EncryptPassword passwordEncryption) {
         this.secrets = secrets;
         this.passwordEncryption = passwordEncryption;
-        this.saltGenerator = saltGenerator;
     }
 
     public UUID addSecret(Secret secret) {
@@ -52,7 +50,7 @@ public class SecretService {
         String encrypted = "";
         if (!"".equals(password)) {
             encrypted = this.passwordEncryption.encrypt(
-                    this.saltGenerator.salt(),
+                    secret.salt(),
                     password
             );
         }
