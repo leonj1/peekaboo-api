@@ -90,7 +90,8 @@ public class App {
                                         new Gson()
                                 ),
                                 new GetSecretWithPasswordRoute(secretService),
-                                new FetchQueueStatsRoute(secretService)
+                                new FetchQueueStatsRoute(secretService),
+                                appProperties.getSiteStatsPassword()
                         )
                 }
         );

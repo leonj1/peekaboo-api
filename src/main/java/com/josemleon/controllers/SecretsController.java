@@ -17,12 +17,14 @@ public class SecretsController implements Controller {
     private AddSecretRoute addSecretRoute;
     private GetSecretWithPasswordRoute getSecretWithPasswordRoute;
     private FetchQueueStatsRoute fetchQueueStatsRoute;
+    private String statsPassword;
 
-    public SecretsController(HealthCheckRoute healthCheckRoute, AddSecretRoute addSecretRoute, GetSecretWithPasswordRoute getSecretWithPasswordRoute, FetchQueueStatsRoute fetchQueueStatsRoute) {
+    public SecretsController(HealthCheckRoute healthCheckRoute, AddSecretRoute addSecretRoute, GetSecretWithPasswordRoute getSecretWithPasswordRoute, FetchQueueStatsRoute fetchQueueStatsRoute, String statsPassword) {
         this.healthCheckRoute = healthCheckRoute;
         this.addSecretRoute = addSecretRoute;
         this.getSecretWithPasswordRoute = getSecretWithPasswordRoute;
         this.fetchQueueStatsRoute = fetchQueueStatsRoute;
+        this.statsPassword = statsPassword;
     }
 
     @Override
@@ -31,6 +33,6 @@ public class SecretsController implements Controller {
         get("/secrets/:uuid/:password", this.getSecretWithPasswordRoute);
         get("/secrets/:uuid", this.getSecretWithPasswordRoute);
         post("/secrets", this.addSecretRoute);
-        get("/stats/secrets/535dbb6f", this.fetchQueueStatsRoute);
+        get("/stats/secrets/" + this.statsPassword, this.fetchQueueStatsRoute);
     }
 }

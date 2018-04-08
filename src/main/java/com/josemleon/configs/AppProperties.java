@@ -28,4 +28,8 @@ public class AppProperties {
     public int getSaltPasswordRounds() throws PropertiesFileNotFoundException, IOException {
         return Integer.parseInt(this.getProperty.value("password.salt.num.rounds"));
     }
+
+    public String getSiteStatsPassword() throws PropertiesFileNotFoundException, IOException {
+        return this.getProperty.value("password.site.stats");
+    }
 }
