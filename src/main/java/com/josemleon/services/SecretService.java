@@ -3,9 +3,11 @@ package com.josemleon.services;
 import com.josemleon.exceptions.NotFoundException;
 import com.josemleon.exceptions.RequiresPasswordException;
 import com.josemleon.exceptions.SecretExpiredException;
+import com.josemleon.models.QueueSummary;
 import com.josemleon.models.Secret;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.github.choonchernlim.betterPreconditions.preconditions.PreconditionFactory.expect;
@@ -58,5 +60,22 @@ public class SecretService {
         String message = secret.message(encrypted);
         this.secrets.remove(id);
         return message;
+    }
+
+    public QueueSummary fetchQueueStats() {
+        int numUnexpiredEntries = 0;
+        Set<UUID> keys = this.secrets.keySet();
+
+        for(UUID id : keys) {
+            Secret secret = this.secrets.get(id);
+            if (!secret.isExpired()) {
+                numUnexpiredEntries++;
+            }
+        }
+
+        return new QueueSummary(
+                keys.size(),
+                numUnexpiredEntries
+        );
     }
 }

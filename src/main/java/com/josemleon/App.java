@@ -6,6 +6,7 @@ import com.josemleon.controllers.Controller;
 import com.josemleon.controllers.RestEndpoints;
 import com.josemleon.controllers.SecretsController;
 import com.josemleon.controllers.routes.AddSecretRoute;
+import com.josemleon.controllers.routes.FetchQueueStatsRoute;
 import com.josemleon.controllers.routes.GetSecretWithPasswordRoute;
 import com.josemleon.controllers.routes.HealthCheckRoute;
 import com.josemleon.exceptions.PropertiesFileNotFoundException;
@@ -88,7 +89,8 @@ public class App {
                                         appProperties.getSecretDefaultExpiryMinutes(),
                                         new Gson()
                                 ),
-                                new GetSecretWithPasswordRoute(secretService)
+                                new GetSecretWithPasswordRoute(secretService),
+                                new FetchQueueStatsRoute(secretService)
                         )
                 }
         );
