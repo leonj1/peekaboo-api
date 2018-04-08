@@ -48,7 +48,9 @@ public class GetSecretWithPasswordRoute implements Route {
             }
             return execute(response, id, password);
         } catch (Exception e) {
-            return SimpleExitRoute.builder(response).BAD_REQUEST_400().text("invalid UUID", e);
+            return SimpleExitRoute.builder(response)
+                    .BAD_REQUEST_400()
+                    .text("Invalid Token", e);
         }
     }
 }
