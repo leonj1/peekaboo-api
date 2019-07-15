@@ -9,12 +9,18 @@ import com.josemleon.controllers.routes.AddSecretRoute;
 import com.josemleon.controllers.routes.FetchQueueStatsRoute;
 import com.josemleon.controllers.routes.GetSecretWithPasswordRoute;
 import com.josemleon.controllers.routes.HealthCheckRoute;
+import com.josemleon.controllers.routes.rooms.AddMessageRoute;
+import com.josemleon.controllers.routes.rooms.CreateRoomRoute;
+import com.josemleon.controllers.routes.rooms.DeleteRoomRoute;
+import com.josemleon.controllers.routes.rooms.FetchRoomRoute;
 import com.josemleon.exceptions.PropertiesFileNotFoundException;
+import com.josemleon.models.Room;
 import com.josemleon.models.Secret;
 import com.josemleon.services.BCryptEncryptPassword;
 import com.josemleon.services.BeforeFilter;
 import com.josemleon.services.EncryptPassword;
 import com.josemleon.services.RandomStringSaltGenerator;
+import com.josemleon.services.RoomService;
 import com.josemleon.services.SaltGenerator;
 import com.josemleon.services.SecretService;
 import com.josemleon.services.SparkFilter;
@@ -78,6 +84,8 @@ public class App {
                 passwordEncryption
         );
 
+        RoomService roomService = new RoomService(new ConcurrentHashMap<String, Room>());
+
         RestEndpoints restEndpoints = new RestEndpoints(
                 new Controller[]{
                         new SecretsController(
@@ -91,7 +99,11 @@ public class App {
                                 ),
                                 new GetSecretWithPasswordRoute(secretService),
                                 new FetchQueueStatsRoute(secretService),
-                                appProperties.getSiteStatsPassword()
+                                appProperties.getSiteStatsPassword(),
+                                new CreateRoomRoute(roomService),
+                                new FetchRoomRoute(roomService),
+                                new AddMessageRoute(roomService),
+                                new DeleteRoomRoute(roomService)
                         )
                 }
         );
